@@ -19,7 +19,7 @@ public class UserDao extends Dao<User> {
 
         PreparedStatement addUser;
         try {
-            addUser = conn.prepareStatement("INSERT INTO users (login,pass,sid,tid) VALUES(?,?,?,?)");
+            addUser = conn.prepareStatement("INSERT INTO users (login,pass) VALUES(?,?)");
             addUser.setString(1, obj.getLogin());
             addUser.setString(2, obj.getPass());
             return addUser.executeUpdate() == 1;
