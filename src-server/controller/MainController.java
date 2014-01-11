@@ -7,6 +7,7 @@ import java.rmi.registry.Registry;
 
 import controller.proxy.InvocationHandlerAdmin;
 import controller.proxy.InvocationHandlerAnonymous;
+import controller.proxy.InvocationHandlerUser;
 import controller.proxy.ROLE;
 import controller.proxy.RemoteServerController;
 import controller.proxy.RemoteServerControllerImpl;
@@ -45,7 +46,7 @@ public class MainController {
 	private RemoteServerControllerImpl remote;
 	private RemoteServerController proxremote;
 	Registry registry;
-	//private UserDao userdao;
+	private UserDao userdao;
 
 	private RemoteServerController getProxyAnonymous(RemoteServerController remote) {
 		return (RemoteServerController) Proxy.newProxyInstance(remote.getClass()
@@ -58,29 +59,26 @@ public class MainController {
 				.getClassLoader(), remote.getClass().getInterfaces(),
 				new InvocationHandlerAdmin(remote));
 	}
+	
+	private RemoteServerController getProxyUser(RemoteServerController remote) {
+		return (RemoteServerController) Proxy.newProxyInstance(remote.getClass()
+				.getClassLoader(), remote.getClass().getInterfaces(),
+				new InvocationHandlerUser(remote));
+	}
 
 	public RemoteServerController getProxy(String login, String pass) {
-		/*User u = userdao.findByLoginAndPass(login, pass);
+		User u = userdao.findByLoginAndPass(login, pass);
 		if (u == null) return getProxyAnonymous(remote);
 		try {
-			remote = new RemoteControllerImpl();
+			remote = new RemoteServerControllerImpl();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		if (u instanceof Student) {
+		if (u instanceof User) {
 			try {
-			    remote.setGranted(ROLE.STUDENT);
+			    remote.setGranted(ROLE.USER);
 			    remote.setUser(u);
-				return getProxyStudent(remote);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		else if (u instanceof Teacher) {
-			try {
-			    remote.setGranted(ROLE.TEACHER);
-			    remote.setUser(u);
-				return getProxyTeacher(remote);
+				return getProxyUser(remote);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -88,11 +86,12 @@ public class MainController {
 		else {
 			try {
 			    remote.setGranted(ROLE.ADMIN);
+			    remote.setUser(u);
 				return getProxyAdmin(remote);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}*/
+		}
 		return getProxyAnonymous(remote);
 	}
 
@@ -112,7 +111,7 @@ public class MainController {
 			registry = java.rmi.registry.LocateRegistry.createRegistry(13000);
 			remote = new RemoteServerControllerImpl();
 			proxremote = getProxyAnonymous(remote);
-			//userdao = (UserDao) DaoFactory.getUserDao();
+			userdao = (UserDao) DaoFactory.getUserDao();
 			registry.rebind("RemoteServerController", proxremote);
 
 		} catch (Exception e) {

@@ -10,8 +10,6 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 5912873203392339071L;
 	private String login;
     private String pass;
-    private int sid;
-    private int tid;
     
     public User() {
         
@@ -20,15 +18,11 @@ public class User implements Serializable {
     public User(String login, String pass) {
         this.login = login;
         this.pass = pass;
-        sid=0;
-        tid=0;
     }
     
     public User(String login, String pass, int sid, int tid) {
         this.login = login;
         this.pass = pass;
-        this.sid = sid;
-        this.tid = tid;
     }
     
     public String getLogin() {
@@ -38,12 +32,4 @@ public class User implements Serializable {
     public String getPass() {
         return pass;
     }
-    
-    public int getSid() {
-        return sid;
-    }
-    public int getTid() {
-        return tid;
-    }
-
 }

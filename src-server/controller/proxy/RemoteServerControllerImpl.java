@@ -5,9 +5,11 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
+import controller.ChatroomController;
 import controller.DatabaseController;
 import controller.MainController;
 
+import model.Chatroom;
 import model.User;
 
 public class RemoteServerControllerImpl extends UnicastRemoteObject implements RemoteServerController {
@@ -18,9 +20,11 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
 	private static final long serialVersionUID = -3441443474490088855L;
     User user;
     ROLE role;
+    private ChatroomController chatroom;
     
     public RemoteServerControllerImpl() throws RemoteException {
         DatabaseController.getConnection();
+        chatroom = ChatroomController.getInstance();
         user = null;
         role = ROLE.ANONYMOUS;
     }
@@ -65,6 +69,16 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
 	public List<User> getUserList() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void joinChatroom(String name) throws RemoteException {
+		chatroom.joinChatroom(user, name);
+	}
+
+	@Override
+	public List<Chatroom> getChatroomList() throws RemoteException {
+		return chatroom.getRooms();
 	}
 
 }

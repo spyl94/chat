@@ -2,14 +2,13 @@ package controller;
 
 import java.sql.*;
 
-import model.Major;
 import model.Pair;
 import model.User;
 import model.dao.DaoFactory;
 import model.dao.UserDao;
 
 public class DatabaseController {
-    private String url = "jdbc:sqlite:efrei.db";
+    private String url = "jdbc:sqlite:chat.db";
     private static Connection connect;
 
     public static final String USERS = "create table users (id integer, login string, pass string, PRIMARY KEY(id))";
