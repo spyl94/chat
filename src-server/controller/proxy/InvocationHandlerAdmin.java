@@ -16,7 +16,7 @@ public class InvocationHandlerAdmin implements InvocationHandler, java.io.Serial
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws IllegalAccessException, Throwable {
-    	System.out.println("YOU ARE NOW ADMIN");
+    	System.out.println("GRANTED RIGHTS : Admin");
         try {
         	try {
                 return method.invoke(controller, args);

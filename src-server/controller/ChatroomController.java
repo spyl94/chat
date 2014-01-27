@@ -12,7 +12,6 @@ public class ChatroomController {
 	private static ChatroomController controller;
 	
 	private List<Chatroom> rooms = new LinkedList<Chatroom>();
-	private List<Message> messages = new LinkedList<Message>();
 
 	/**
 	 * Returns the ChatroomController.
@@ -38,24 +37,36 @@ public class ChatroomController {
 					"Default constructor called more than once.");
 	}
 	
-	public void joinChatroom(User u, String name) {
+	/**
+	 * Join or create a Chatroom.
+	 * 
+	 * @return the Chatroom
+	 */
+	public Chatroom joinChatroom(User u, String name) {
 		for (Chatroom c : rooms) {
 			if (c.getName().equals(name)) {
 				c.addUser(u);
-				return;
+				return c;
 			}
 		}
 		Chatroom c = new Chatroom(name);
 		rooms.add(c);
 		c.addUser(u);
+		return c;
 	}
 	
 	public List<Chatroom> getRooms() {
 		return rooms;
 	}
 	
-	public void addMessage(Message m) {
-		messages.add(m);
+	public Chatroom sendMessage(Chatroom chat, Message m) {
+		for (Chatroom c : rooms) {
+			if (c.getName().equals(chat.getName())) {
+				c.addMessage(m);
+				return c;
+			}
+		}
+		return null;
 	}
 
 

@@ -10,6 +10,7 @@ import controller.DatabaseController;
 import controller.MainController;
 
 import model.Chatroom;
+import model.Message;
 import model.User;
 
 public class RemoteServerControllerImpl extends UnicastRemoteObject implements RemoteServerController {
@@ -48,7 +49,8 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
         return role;
     }
     
-    public void setClientStub(RemoteClientController stub) {
+    @Override
+    public void setClientStub(RemoteClientController stub) throws RemoteException {
     	this.stub = stub;
     }
 
@@ -65,26 +67,33 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
 	}
 
 	@Override
-	public void sendMessage(String message) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<User> getUserList() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void joinChatroom(String name) throws RemoteException {
-		chatroom.joinChatroom(user, name);
-		stub.sendPublicMessage("tu viens de rejoindre la chatroom" + name);
+	public Chatroom joinChatroom(String name) throws RemoteException {
+		stub.sendPublicMessage(user.getLogin() + "viens de rejoindre la chatroom" + name);
+		return chatroom.joinChatroom(user, name);
 	}
 
 	@Override
 	public List<Chatroom> getChatroomList() throws RemoteException {
 		return chatroom.getRooms();
+	}
+
+	@Override
+	public void sendPublicMessage(String message) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendMessage(Chatroom chat, String message)
+			throws RemoteException {
+		stub.updateChatroom(chatroom.sendMessage(chat, new Message(user, message)));
+		
 	}
 
 }

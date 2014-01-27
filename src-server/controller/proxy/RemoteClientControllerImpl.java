@@ -4,6 +4,9 @@ import java.rmi.RemoteException;
 
 import java.rmi.server.UnicastRemoteObject;
 
+import model.Chatroom;
+import model.Message;
+import view.*;
 
 public class RemoteClientControllerImpl extends UnicastRemoteObject implements RemoteClientController {
 
@@ -19,8 +22,16 @@ public class RemoteClientControllerImpl extends UnicastRemoteObject implements R
 
 	@Override
 	public void sendPublicMessage(String message) throws RemoteException {
-		System.out.println("message recu par le client :" + message);
-		
+		System.out.println("message public recu par le client :" + message);
+	}
+
+	@Override
+	public void updateChatroom(Chatroom chat) throws RemoteException {
+		String str = "";
+		for (Message m : chat.getMessages()) {
+			str += m.getAuthor() + " : " + m.getContent();
+		}
+		new DialogBox("update: " + chat.getName(), str);
 	}
 
 }

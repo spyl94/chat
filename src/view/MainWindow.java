@@ -31,20 +31,23 @@ public class MainWindow {
 
 	public void switchPanel(){
 		connexionWindow.dispose();
+		String str = "";
 		try {
 			if(stub.getGranted() == ROLE.USER){
 				List<Chatroom> chatrooms = stub.getChatroomList();
 				for (Chatroom c : chatrooms) {
 					System.out.println(c.getName());
 				}
-				stub.joinChatroom("testlala");
+				Chatroom testlala = stub.joinChatroom("testlala");
 				for (Chatroom c : stub.getChatroomList()) {
-					System.out.println(c.getName());
+					str += c.getName();
 				}
+				stub.sendMessage(testlala, "coucou c moi");
 			}
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
+		new DialogBox("Liste des chatrooms", str);
 	}
 	
 	private MainWindow() {
