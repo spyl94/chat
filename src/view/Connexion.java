@@ -16,9 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import controller.proxy.RemoteServerController;
+import controller.proxy.RemoteClientControllerImpl;
 
 public class Connexion extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3193712955513509524L;
 	private JPanel all = new JPanel();
 	private JPanel top = new JPanel();
 	private JPanel bot = new JPanel();
@@ -64,6 +68,7 @@ public class Connexion extends JFrame {
 				    try {
 				    	String pass = new String(pwd.getPassword());
 				    	MainWindow.getInstance().setStub(MainWindow.getInstance().getStub().login(user.getText(), pass));
+				    	MainWindow.getInstance().getStub().setClientStub(new RemoteClientControllerImpl());
 				    	MainWindow.getInstance().switchPanel();
 					} catch (RemoteException e) {
 						e.printStackTrace();

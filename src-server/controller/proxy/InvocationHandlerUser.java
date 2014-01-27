@@ -4,7 +4,11 @@ import java.lang.reflect.*;
 
 public class InvocationHandlerUser implements InvocationHandler, java.io.Serializable {
 
-    RemoteServerController controller;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3641171793502056678L;
+	RemoteServerController controller;
 
     public InvocationHandlerUser(RemoteServerController controller) {
         this.controller = controller;
@@ -12,13 +16,9 @@ public class InvocationHandlerUser implements InvocationHandler, java.io.Seriali
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws IllegalAccessException, Throwable {
-    	System.out.println("YOU ARE NOW USER");
+    	System.out.println("GRANTED RIGHTS USER");
         try {
-            if (method.getName().startsWith("get")) {
                 return method.invoke(controller, args);
-            } else {
-                throw new IllegalAccessException();
-            }
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }

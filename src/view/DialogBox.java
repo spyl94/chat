@@ -1,10 +1,8 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class DialogBox extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2865598256248793082L;
 	JFrame actual = this;
 	private JPanel container = new JPanel();
 	private JButton button = new JButton("Ok");

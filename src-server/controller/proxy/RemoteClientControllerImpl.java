@@ -19,7 +19,7 @@ public class RemoteClientControllerImpl extends UnicastRemoteObject implements R
 
 	@Override
 	public void sendPublicMessage(String message) throws RemoteException {
-		// TODO Auto-generated method stub
+		System.out.println("message recu par le client :" + message);
 		
 	}
 

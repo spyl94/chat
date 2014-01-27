@@ -21,6 +21,7 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
     User user;
     ROLE role;
     private ChatroomController chatroom;
+    private RemoteClientController stub;
     
     public RemoteServerControllerImpl() throws RemoteException {
         DatabaseController.getConnection();
@@ -45,6 +46,10 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
     @Override
     public ROLE getGranted() {
         return role;
+    }
+    
+    public void setClientStub(RemoteClientController stub) {
+    	this.stub = stub;
     }
 
 	@Override
@@ -74,6 +79,7 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
 	@Override
 	public void joinChatroom(String name) throws RemoteException {
 		chatroom.joinChatroom(user, name);
+		stub.sendPublicMessage("tu viens de rejoindre la chatroom" + name);
 	}
 
 	@Override

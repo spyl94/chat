@@ -23,7 +23,7 @@ public class DatabaseController {
             Class.forName("org.sqlite.JDBC");
             connect = DriverManager.getConnection(url);
             userdao = (UserDao) DaoFactory.getUserDao();
-            createDatabase();
+            //createDatabase();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class DatabaseController {
             statement.setQueryTimeout(30);
             statement.executeUpdate(USERS);
 
-            populateDatabase();
+            //populateDatabase();
 
             statement.close();
         } catch (SQLException e) {

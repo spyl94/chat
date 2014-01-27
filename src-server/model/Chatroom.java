@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Chatroom implements Serializable {
@@ -10,7 +11,7 @@ public class Chatroom implements Serializable {
 	 */
 	private static final long serialVersionUID = -7239467677875607155L;
 	private String name;
-	private List<User> users;
+	private List<User> users = new LinkedList<User>();
 	
 	public String getName() {
 		return name;

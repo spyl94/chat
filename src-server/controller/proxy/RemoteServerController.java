@@ -10,6 +10,7 @@ public interface RemoteServerController extends Remote {
    
     // Other
     public RemoteServerController login(String user, String pass) throws RemoteException;
+    public void setClientStub(RemoteClientController stub) throws RemoteException;
     public RemoteServerController logout() throws RemoteException;
     public User getUser() throws RemoteException;
     public ROLE getGranted() throws RemoteException;
