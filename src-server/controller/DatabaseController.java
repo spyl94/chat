@@ -2,7 +2,6 @@ package controller;
 
 import java.sql.*;
 
-import model.Pair;
 import model.User;
 import model.dao.DaoFactory;
 import model.dao.UserDao;
