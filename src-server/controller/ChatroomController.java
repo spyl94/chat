@@ -66,6 +66,7 @@ public class ChatroomController {
 				return c;
 			}
 		}
+		System.out.println("chat introuvable");
 		return null;
 	}
 

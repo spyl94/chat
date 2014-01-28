@@ -55,9 +55,7 @@ public class DatabaseController {
         
         int i = 0;
         for (String s : POPULATE_USERS_LOGIN) {
-            if (i <= 2) userdao.create(new User(s, POPULATE_USER_PASS[i],i+1,0));
-            else if (i <= 4) userdao.create(new User(s, POPULATE_USER_PASS[i],0,i-2));
-            else  userdao.create(new User(s, POPULATE_USER_PASS[i]));
+            userdao.create(new User(s, POPULATE_USER_PASS[i]));
             i++;
         }
         System.out.println("Database Populated");

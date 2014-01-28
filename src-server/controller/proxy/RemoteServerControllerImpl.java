@@ -12,6 +12,8 @@ import controller.MainController;
 import model.Chatroom;
 import model.Message;
 import model.User;
+import model.dao.Dao;
+import model.dao.DaoFactory;
 
 public class RemoteServerControllerImpl extends UnicastRemoteObject implements RemoteServerController {
 
@@ -21,8 +23,8 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
 	private static final long serialVersionUID = -3441443474490088855L;
     User user;
     ROLE role;
+    Dao<User> dao = (Dao<User>) DaoFactory.getUserDao();
     private ChatroomController chatroom;
-    private RemoteClientController stub;
     
     public RemoteServerControllerImpl() throws RemoteException {
         DatabaseController.getConnection();
@@ -51,7 +53,7 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
     
     @Override
     public void setClientStub(RemoteClientController stub) throws RemoteException {
-    	this.stub = stub;
+    	user.setStub(stub);
     }
 
 	@Override
@@ -67,14 +69,8 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
 	}
 
 	@Override
-	public List<User> getUserList() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Chatroom joinChatroom(String name) throws RemoteException {
-		stub.sendPublicMessage(user.getLogin() + "viens de rejoindre la chatroom" + name);
+		user.getStub().sendPublicMessage(user.getLogin() + "viens de rejoindre la chatroom" + name);
 		return chatroom.joinChatroom(user, name);
 	}
 
@@ -84,16 +80,23 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
 	}
 
 	@Override
-	public void sendPublicMessage(String message) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public void sendMessage(Chatroom chat, String message)
+			throws RemoteException {
+		Chatroom c = chatroom.sendMessage(chat, new Message(user, message));
+		if (c == null) return;
+		for (User u : c.getUsers()) {
+			if (u.getStub() != null) {
+				u.getStub().updateChatroom(c);
+			} else {
+				System.out.println(u.getLogin() + " non connecté !");
+			}
+		}
 	}
 
 	@Override
-	public void sendMessage(Chatroom chat, String message)
+	public boolean register(String user, String pass)
 			throws RemoteException {
-		stub.updateChatroom(chatroom.sendMessage(chat, new Message(user, message)));
-		
+		return dao.create(new User(user,pass));
 	}
 
 }
