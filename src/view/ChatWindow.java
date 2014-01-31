@@ -129,7 +129,6 @@ public class ChatWindow extends JFrame {
 	public void setChatrooms(List<String> chatrooms) {
 		for(String c : chatrooms) {
 			serverChatrooms.addElement(c);
-			
 		}
 	}
 
@@ -139,5 +138,9 @@ public class ChatWindow extends JFrame {
 
 	public void setMessages(Chatroom chatroom) {
 		chatrooms.get(chatroom.getName()).setMessages(chatroom);
+	}
+	
+	public void setUsers(Chatroom chatroom) {
+		chatrooms.get(chatroom.getName()).setUsers(chatroom.getUsers());
 	}
 }

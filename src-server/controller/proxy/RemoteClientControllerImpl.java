@@ -26,6 +26,7 @@ public class RemoteClientControllerImpl extends UnicastRemoteObject implements R
 	@Override
 	public void updateChatroom(Chatroom chat) throws RemoteException {
 		ChatWindow.getInstance().setMessages(chat);
+		ChatWindow.getInstance().setUsers(chat);
 	}
 
 }
