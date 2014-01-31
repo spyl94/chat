@@ -13,6 +13,7 @@ import javax.swing.Box;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 
@@ -21,11 +22,9 @@ import controller.proxy.RemoteClientControllerImpl;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 
-public class AuthWindow extends JFrame {
+public class RegisterWindow extends JFrame {
 
 	/**
 	 * 
@@ -34,20 +33,21 @@ public class AuthWindow extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtLogin;
 	private JPasswordField passwordField;
+	private JPasswordField passwordField2;
 
 	/**
 	 * Create the frame.
 	 */
-	public AuthWindow() {
-		setTitle("Chat - Connexion");
+	public RegisterWindow() {
+		setTitle("Chat - Inscription");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 208);
+		setBounds(100, 100, 450, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblAfinDeVous = new JLabel("Afin de vous connecter au chat, merci de renseigner vos identifiants :");
+		JLabel lblAfinDeVous = new JLabel("Pour vous inscrire, merci de renseigner vos identifiants :");
 		contentPane.add(lblAfinDeVous);
 		
 		Box verticalBox = Box.createVerticalBox();
@@ -92,25 +92,40 @@ public class AuthWindow extends JFrame {
 		Box horizontalBox_3 = Box.createHorizontalBox();
 		verticalBox.add(horizontalBox_3);
 		
-		JButton btnLogin = new JButton("Login");
-		horizontalBox_3.add(btnLogin);
+		JLabel label = new JLabel("Répetez :");
+		horizontalBox_3.add(label);
 		
-		JButton btnInscription = new JButton("Inscription ?");
-		btnInscription.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new RegisterWindow();
-				AuthWindow.this.dispose();
-			}
-		});
-		horizontalBox_3.add(btnInscription);
+		passwordField2 = new JPasswordField();
+		horizontalBox_3.add(passwordField2);
+		
+		Component verticalStrut_3 = Box.createVerticalStrut(20);
+		verticalBox.add(verticalStrut_3);
+		
+		Box horizontalBox = Box.createHorizontalBox();
+		verticalBox.add(horizontalBox);
+		
+		JButton btnLogin = new JButton("Inscription");
+		horizontalBox.add(btnLogin);
 		
 		btnLogin.addActionListener(new ActionListener(){
 			  public void actionPerformed(ActionEvent arg0){
 				    try {
 				    	String pass = new String(passwordField.getPassword());
-				    	MainWindow.getInstance().setStub(MainWindow.getInstance().getStub().login(txtLogin.getText(), pass));
-				    	MainWindow.getInstance().getStub().setClientStub(new RemoteClientControllerImpl());
-				    	MainWindow.getInstance().switchPanel();
+				    	String pass2 = new String(passwordField2.getPassword());
+				    	
+				    	if(! pass.equals(pass2))
+				    		JOptionPane.showMessageDialog(RegisterWindow.this, "Les deux mot de passe ne sont pas identiques !");
+				    	
+				    	else if(txtLogin.getText() == "" || pass == "" || pass2 == "")
+				    		JOptionPane.showMessageDialog(RegisterWindow.this, "Au moins l'un des champs est vide !");
+				    	
+				    	else {
+
+					    	MainWindow.getInstance().getStub().register(txtLogin.getText(), pass);
+					    	MainWindow.getInstance().setStub(MainWindow.getInstance().getStub().login(txtLogin.getText(), pass));
+					    	MainWindow.getInstance().getStub().setClientStub(new RemoteClientControllerImpl());
+					    	MainWindow.getInstance().switchPanel();
+				    	}
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					}
