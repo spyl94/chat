@@ -32,23 +32,9 @@ public class MainWindow {
 	public void switchPanel(){
 		authWindow.dispose();
 		ChatWindow chatWindow = ChatWindow.getInstance();
-		String str = "";
-		try {
-			if(stub.getGranted() == ROLE.USER){
-				List<Chatroom> chatrooms = stub.getChatroomList();
-				for (Chatroom c : chatrooms) {
-					System.out.println(c.getName());
-				}
-				Chatroom testlala = stub.joinChatroom("testlala");
-				for (Chatroom c : stub.getChatroomList()) {
-					chatWindow.addChatroom(c.getName());
-				}
-				stub.sendMessage(testlala, "coucou c moi");
-			}
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
-		new DialogBox("Liste des chatrooms", str);
+		chatWindow.setStub(stub);
+		
+		chatWindow.joinChatroom("Home");
 	}
 	
 	private MainWindow() {

@@ -1,14 +1,12 @@
 package controller.proxy;
 
 import java.rmi.RemoteException;
-
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import controller.ChatroomController;
 import controller.DatabaseController;
 import controller.MainController;
-
 import model.Chatroom;
 import model.Message;
 import model.User;
@@ -23,7 +21,8 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
 	private static final long serialVersionUID = -3441443474490088855L;
     User user;
     ROLE role;
-    Dao<User> dao = (Dao<User>) DaoFactory.getUserDao();
+    @SuppressWarnings("unchecked")
+	Dao<User> dao = (Dao<User>) DaoFactory.getUserDao();
     private ChatroomController chatroom;
     
     public RemoteServerControllerImpl() throws RemoteException {

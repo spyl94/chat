@@ -4,22 +4,24 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import javax.swing.DefaultListModel;
-import javax.swing.JTextPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JList;
-import javax.swing.JTextField;
 
 import java.awt.Font;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.SwingConstants;
+import javax.swing.JTabbedPane;
+
+import model.Chatroom;
+import controller.proxy.RemoteServerController;
 
 public class ChatWindow extends JFrame {
 
@@ -28,10 +30,11 @@ public class ChatWindow extends JFrame {
 	 */
 	private static final long serialVersionUID = -8834486440559609837L;
 	private static ChatWindow window;
+	private RemoteServerController stub;
+	private HashMap<String, ChatTab> chatrooms = new HashMap<String, ChatTab>();
 	private JPanel contentPane;
-	private JTextField textField;
-	private DefaultListModel<String> chatrooms;
-	private JTextPane textPane;
+	private DefaultListModel<String> serverChatrooms;
+	private JTabbedPane tabbedPane;
 
 	/**
 	 * Singleton
@@ -53,10 +56,6 @@ public class ChatWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textPane = new JTextPane();
-		textPane.setBounds(10, 39, 466, 349);
-		contentPane.add(textPane);
-		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 624, 28);
 		contentPane.add(menuBar);
@@ -68,48 +67,57 @@ public class ChatWindow extends JFrame {
 		JMenuItem mntmQuit = new JMenuItem("Quit");
 		mnFile.add(mntmQuit);
 		
-		chatrooms = new DefaultListModel<String>();
-		JList<String> list = new JList<String>(chatrooms);
+		serverChatrooms = new DefaultListModel<String>();
+		JList<String> list = new JList<String>(serverChatrooms);
 		list.setBounds(486, 64, 128, 324);
 		contentPane.add(list);
-		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		textField.setBounds(10, 399, 466, 28);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Envoyer");
-		btnNewButton.setBounds(486, 399, 128, 28);
-		contentPane.add(btnNewButton);
 		
 		JLabel lblChatrooms = new JLabel("Chatrooms :");
 		lblChatrooms.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblChatrooms.setBounds(486, 39, 84, 14);
 		contentPane.add(lblChatrooms);
 		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(10, 33, 468, 394);
+		contentPane.add(tabbedPane);
 		
 		
 
 		this.setVisible(true);
 	}
-
-	public void addMessage(String author, String content) throws BadLocationException {
-		StyledDocument doc = (StyledDocument)textPane.getDocument();
-		Style style = doc.addStyle("Style", null);
+	
+	public void joinChatroom(String name) {
 		
-        StyleConstants.setBold(style, true);
-         doc.insertString(doc.getLength(), "[" + author + "] ", style);
-		
-        StyleConstants.setBold(style, false);   
-		doc.insertString(doc.getLength(), content + "\n", style);
-		
-		textPane.setCaretPosition(doc.getLength());
-		
+		try {
+			Chatroom chatroom = stub.joinChatroom(name);
+			
+			ChatTab panel = new ChatTab(chatroom, stub);
+			tabbedPane.addTab(name, null, panel, null);
+			
+			chatrooms.put(chatroom.getName(), panel);
+			panel.addMessage("System", "Vous avez rejoint cette chatroom.");
+			
+			stub.sendMessage(chatroom, "coucou c moi");
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void addChatroom(String name) {
-		chatrooms.addElement(name);
+		serverChatrooms.addElement(name);
+		
+	}
+
+	public void setStub(RemoteServerController stub) {
+		this.stub = stub;
+		
+	}
+
+	public void setMessages(Chatroom chatroom) {
+		chatrooms.get(chatroom.getName()).setMessages(chatroom);
 		
 	}
 }
