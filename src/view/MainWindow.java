@@ -12,7 +12,7 @@ public class MainWindow {
 	private static MainWindow mainWindow;
 	private RemoteServerController stub;
 	private Registry registry;
-	private Connexion connexionWindow;
+	private AuthWindow authWindow;
 	
 	public static MainWindow getInstance() {
 		if (mainWindow == null)
@@ -30,7 +30,7 @@ public class MainWindow {
 	
 
 	public void switchPanel(){
-		connexionWindow.dispose();
+		authWindow.dispose();
 		String str = "";
 		try {
 			if(stub.getGranted() == ROLE.USER){
@@ -64,7 +64,7 @@ public class MainWindow {
 	            e.printStackTrace();
 	        }
 	        
-		 connexionWindow = new Connexion();
+		 authWindow = new AuthWindow();
 		 
 	}
 		
