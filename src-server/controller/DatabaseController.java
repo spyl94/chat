@@ -22,7 +22,9 @@ public class DatabaseController {
             Class.forName("org.sqlite.JDBC");
             connect = DriverManager.getConnection(url);
             userdao = (UserDao) DaoFactory.getUserDao();
+            
             //createDatabase();
+            
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -41,7 +43,7 @@ public class DatabaseController {
             statement.setQueryTimeout(30);
             statement.executeUpdate(USERS);
 
-            //populateDatabase();
+            populateDatabase();
 
             statement.close();
         } catch (SQLException e) {
@@ -51,7 +53,6 @@ public class DatabaseController {
 
     public void populateDatabase() {
         System.out.println("Populating Database ...");
-        
         int i = 0;
         for (String s : POPULATE_USERS_LOGIN) {
             userdao.create(new User(s, POPULATE_USER_PASS[i]));

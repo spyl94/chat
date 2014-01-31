@@ -7,6 +7,11 @@ import model.Chatroom;
 import model.Message;
 import model.User;
 
+/**
+ * @author Aurel
+ * @Singleton
+ * 
+ */
 public class ChatroomController {
 	
 	private static ChatroomController controller;

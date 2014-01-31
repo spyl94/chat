@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
 
-import controller.proxy.InvocationHandlerAdmin;
 import controller.proxy.InvocationHandlerAnonymous;
 import controller.proxy.InvocationHandlerUser;
 import controller.proxy.ROLE;
@@ -54,12 +53,6 @@ public class MainController {
 				new InvocationHandlerAnonymous(remote));
 	}
 
-	private RemoteServerController getProxyAdmin(RemoteServerController remote) {
-		return (RemoteServerController) Proxy.newProxyInstance(remote.getClass()
-				.getClassLoader(), remote.getClass().getInterfaces(),
-				new InvocationHandlerAdmin(remote));
-	}
-	
 	private RemoteServerController getProxyUser(RemoteServerController remote) {
 		return (RemoteServerController) Proxy.newProxyInstance(remote.getClass()
 				.getClassLoader(), remote.getClass().getInterfaces(),
@@ -74,23 +67,12 @@ public class MainController {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		if (u instanceof User) {
-			try {
-			    remote.setGranted(ROLE.USER);
-			    remote.setUser(u);
-				return getProxyUser(remote);
-			} catch (Exception e) {
+		try {
+			remote.setGranted(ROLE.USER);
+			remote.setUser(u);
+			return getProxyUser(remote);
+		} catch (Exception e) {
 				e.printStackTrace();
-			}
-		}
-		else {
-			try {
-			    remote.setGranted(ROLE.ADMIN);
-			    remote.setUser(u);
-				return getProxyAdmin(remote);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 		return getProxyAnonymous(remote);
 	}

@@ -68,7 +68,7 @@ public class ChatWindow extends JFrame {
 		mnFile.setHorizontalAlignment(SwingConstants.LEFT);
 		menuBar.add(mnFile);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Cr\u00E9er une chatroom");
+		JMenuItem mntmNewMenuItem = new JMenuItem("Cr\u00E9er ou rejoindre une chatroom");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new NewChatroomDialog();

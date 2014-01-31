@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
@@ -102,6 +101,7 @@ public class ChatTab extends JPanel {
 	}
 	
 	public void setUsers(List<User> list) {
+		this.users.removeAllElements();
 		for(User u : list) {
 			this.users.addElement(u.getLogin());
 		}
