@@ -38,4 +38,8 @@ public class User implements Serializable {
     public String getPass() {
         return pass;
     }
+    
+    public String toString() {
+    	return login;
+    }
 }

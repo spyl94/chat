@@ -31,6 +31,7 @@ public class MainWindow {
 
 	public void switchPanel(){
 		authWindow.dispose();
+		ChatWindow chatWindow = ChatWindow.getInstance();
 		String str = "";
 		try {
 			if(stub.getGranted() == ROLE.USER){
@@ -40,7 +41,7 @@ public class MainWindow {
 				}
 				Chatroom testlala = stub.joinChatroom("testlala");
 				for (Chatroom c : stub.getChatroomList()) {
-					str += c.getName();
+					chatWindow.addChatroom(c.getName());
 				}
 				stub.sendMessage(testlala, "coucou c moi");
 			}

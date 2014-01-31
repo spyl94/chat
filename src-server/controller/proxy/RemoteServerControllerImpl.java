@@ -70,7 +70,7 @@ public class RemoteServerControllerImpl extends UnicastRemoteObject implements R
 
 	@Override
 	public Chatroom joinChatroom(String name) throws RemoteException {
-		user.getStub().sendPublicMessage(user.getLogin() + "viens de rejoindre la chatroom" + name);
+		user.getStub().sendPublicMessage(user.getLogin() + " viens de rejoindre la chatroom " + name);
 		return chatroom.joinChatroom(user, name);
 	}
 

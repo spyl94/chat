@@ -1,8 +1,9 @@
 package controller.proxy;
 
 import java.rmi.RemoteException;
-
 import java.rmi.server.UnicastRemoteObject;
+
+import javax.swing.text.BadLocationException;
 
 import model.Chatroom;
 import model.Message;
@@ -27,11 +28,14 @@ public class RemoteClientControllerImpl extends UnicastRemoteObject implements R
 
 	@Override
 	public void updateChatroom(Chatroom chat) throws RemoteException {
-		String str = "";
 		for (Message m : chat.getMessages()) {
-			str += m.getAuthor() + " : " + m.getContent();
+			try {
+				ChatWindow.getInstance().addMessage(m.getAuthor().getLogin(), m.getContent());
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		new DialogBox("update: " + chat.getName(), str);
 	}
 
 }
