@@ -1,12 +1,8 @@
 package view;
 
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.List;
-import controller.proxy.ROLE;
 import controller.proxy.RemoteServerController;
-import model.*;
 
 public class MainWindow {
 	private static MainWindow mainWindow;
@@ -33,7 +29,6 @@ public class MainWindow {
 		authWindow.dispose();
 		ChatWindow chatWindow = ChatWindow.getInstance();
 		chatWindow.setStub(stub);
-		
 		chatWindow.joinChatroom("Home");
 	}
 	

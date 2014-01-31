@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -27,13 +26,9 @@ public class ChatTab extends JPanel {
 	private static final long serialVersionUID = -631964749795742487L;
 	private JTextField textField;
 	private JTextPane textPane;
-	private Chatroom chatroom;
-	private RemoteServerController stub;
 	
 	public ChatTab(final Chatroom chatroom, final RemoteServerController stub) {
 		this.setLayout(null);
-		this.chatroom = chatroom;
-		this.stub = stub;
 		
 		textField = new JTextField();
 		textField.setBounds(10, 333, 343, 22);
