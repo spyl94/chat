@@ -2,6 +2,7 @@ package controller.proxy;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 import model.Chatroom;
 import view.*;
@@ -27,6 +28,11 @@ public class RemoteClientControllerImpl extends UnicastRemoteObject implements R
 	public void updateChatroom(Chatroom chat) throws RemoteException {
 		ChatWindow.getInstance().setMessages(chat);
 		ChatWindow.getInstance().setUsers(chat);
+	}
+
+	@Override
+	public void updateChatroomList(List<Chatroom> l) throws RemoteException {
+		ChatWindow.getInstance().setChatrooms(l);
 	}
 
 }

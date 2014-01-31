@@ -16,7 +16,6 @@ public class InvocationHandlerUser implements InvocationHandler, java.io.Seriali
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws IllegalAccessException, Throwable {
-    	System.out.println("GRANTED RIGHTS : User");
         try {
                 return method.invoke(controller, args);
         } catch (InvocationTargetException e) {

@@ -16,10 +16,8 @@ public class InvocationHandlerAnonymous implements InvocationHandler, java.io.Se
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws IllegalAccessException, Throwable {
-    	System.out.println("GRANTED RIGHTS : Anonymous");
-    	System.out.println(method.getName());
         try {
-            if (method.getName().equals("login")) {
+            if (method.getName().equals("login") || method.getName().equals("register")) {
                 return method.invoke(controller, args);
             } else {
                 throw new IllegalAccessException();

@@ -12,6 +12,7 @@ public class ChatroomController {
 	private static ChatroomController controller;
 	
 	private List<Chatroom> rooms = new LinkedList<Chatroom>();
+	private List<User> users = new LinkedList<User>();
 
 	/**
 	 * Returns the ChatroomController.
@@ -45,18 +46,28 @@ public class ChatroomController {
 	public Chatroom joinChatroom(User u, String name) {
 		for (Chatroom c : rooms) {
 			if (c.getName().equals(name)) {
+				if(!users.contains(u)) {
+					users.add(u);
+				}
 				c.addUser(u);
 				return c;
 			}
 		}
 		Chatroom c = new Chatroom(name);
 		rooms.add(c);
+		if(!users.contains(u)) {
+			users.add(u);
+		}
 		c.addUser(u);
 		return c;
 	}
 	
 	public List<Chatroom> getRooms() {
 		return rooms;
+	}
+	
+	public List<User> getUsers() {
+		return users;
 	}
 	
 	public Chatroom sendMessage(Chatroom chat, Message m) {

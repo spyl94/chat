@@ -126,9 +126,10 @@ public class ChatWindow extends JFrame {
 		}
 	}
 
-	public void setChatrooms(List<String> chatrooms) {
-		for(String c : chatrooms) {
-			serverChatrooms.addElement(c);
+	public void setChatrooms(List<Chatroom> chatrooms) {
+		serverChatrooms.removeAllElements();
+		for(Chatroom c : chatrooms) {
+			serverChatrooms.addElement(c.getName());
 		}
 	}
 
